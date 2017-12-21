@@ -1,2 +1,2 @@
-# -eCommerceSite
+# eCommerceSite
 A simple  eCommerce Site.
