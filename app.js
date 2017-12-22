@@ -4,11 +4,15 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var expressHbs = require('express-handlebars');
+var expressHbs = require('express-handlebars'); // Express_Handelbars requirement
+var mongoose = require('mongoose'); // Database requirement.
 
-var index = require('./routes/index');
+var index = require('./routes/index'); // layout or main page route.
+//var routes = require('./routes/index'); // //checking.
 
 var app = express();
+
+mongoose.connect('localhost:27017/DB_Bazar'); // Database connection
 
 // view engine setup
 app.engine('.hbs', expressHbs({defaultLayout: 'layout', extname: '.hbs'}));
