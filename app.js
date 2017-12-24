@@ -7,7 +7,8 @@ var bodyParser = require('body-parser');
 var expressHbs = require('express-handlebars'); // Express_Handelbars requirement
 var mongoose = require('mongoose'); // Database requirement.
 var session = require('express-session');
-
+var passport = require('passport'); // password
+var flash = require('connect-flash');
 
 var index = require('./routes/index'); // layout or main page route.
 //var routes = require('./routes/index'); // //checking.
@@ -15,6 +16,7 @@ var index = require('./routes/index'); // layout or main page route.
 var app = express();
 
 mongoose.connect('localhost:27017/DB_Bazar'); // Database connection
+require('./config/passport');
 
 // view engine setup
 app.engine('.hbs', expressHbs({defaultLayout: 'layout', extname: '.hbs'}));
@@ -27,6 +29,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({secret: 'mysupersecret', resave: false, saveUninitialized: false}));
+app.use(flash()); // for passport
+app.use(passport.initialize()); // for passport
+app.use(passport.session());   // for passport
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index); //myCmnt //or id should be app.use('/', routes);
