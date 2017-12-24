@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressHbs = require('express-handlebars'); // Express_Handelbars requirement
 var mongoose = require('mongoose'); // Database requirement.
+var session = require('express-session');
+
 
 var index = require('./routes/index'); // layout or main page route.
 //var routes = require('./routes/index'); // //checking.
@@ -24,6 +26,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({secret: 'mysupersecret', resave: false, saveUninitialized: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index); //myCmnt //or id should be app.use('/', routes);
