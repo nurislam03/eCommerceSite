@@ -9,9 +9,10 @@ var mongoose = require('mongoose'); // Database requirement.
 var session = require('express-session');
 var passport = require('passport'); // password
 var flash = require('connect-flash');
+var validator = require('express-validator'); // require for signup validator checking
 
 var index = require('./routes/index'); // layout or main page route.
-//var routes = require('./routes/index'); // //checking.
+
 
 var app = express();
 
@@ -27,6 +28,7 @@ app.set('view engine', 'hbs');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(validator());  //signup validator checking // order is important, it should be after the bodyParser
 app.use(cookieParser());
 app.use(session({secret: 'mysupersecret', resave: false, saveUninitialized: false}));
 app.use(flash()); // for passport

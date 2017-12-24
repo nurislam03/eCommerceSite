@@ -17,6 +17,20 @@ passport.use('local.signup', new LocalStrategy({
     passwordField: 'password',
     passReqToCallback: true
 }, function(req, email, password, done) {
+    req.checkBody('email', 'Invalid email').notEmpty().isEmail(); // checking either email is valid or not.
+    req.checkBody('password', 'Invalid password').notEmpty().isLength({min:4}); // checking the password is valid or not.
+    /* above 2 line just check if there is any error but not do anything. In order to
+      to take any action we need to passed all the errors we found. */
+    var errors = req.validationErrors();
+    if(errors) {
+        var messages = [];
+        errors.forEach(function(error) {
+            messages.push(error.msg);
+        });
+        return done(null, false, req.flash('error', messages));
+    } // errors message sending done.
+
+
     User.findOne({'email':email}, function(err, user) {
         if(err) {
             return done(err);
