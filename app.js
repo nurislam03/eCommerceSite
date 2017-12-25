@@ -12,7 +12,7 @@ var flash = require('connect-flash');
 var validator = require('express-validator'); // require for signup validator checking
 
 var index = require('./routes/index'); // layout or main page route.
-
+var userRoutes = require('./routes/user');
 
 var app = express();
 
@@ -36,8 +36,14 @@ app.use(passport.initialize()); // for passport
 app.use(passport.session());   // for passport
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index); //myCmnt //or id should be app.use('/', routes);
+/* creating a Global variable named login, so that i can use it further. */
+app.use(function(req, res, next) {
+    res.locals.login = req.isAuthenticated();
+    next();
+});
 
+app.use('/user', userRoutes);
+app.use('/', index); //ordering is important.
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
