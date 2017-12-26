@@ -10,6 +10,7 @@ var session = require('express-session');
 var passport = require('passport'); // password
 var flash = require('connect-flash');
 var validator = require('express-validator'); // require for signup validator checking
+var mongoStrore = require('connect-mongo')(session); // session store
 
 var index = require('./routes/index'); // layout or main page route.
 var userRoutes = require('./routes/user');
@@ -30,7 +31,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(validator());  //signup validator checking // order is important, it should be after the bodyParser
 app.use(cookieParser());
-app.use(session({secret: 'mysupersecret', resave: false, saveUninitialized: false}));
+app.use(session({
+    secret: 'mysupersecret',
+    resave: false,
+    saveUninitialized: false
+    store: new mongoStrore({ mongooseConnection: mongoose.connection }),
+    cookie: { maxAge: 180 * 60 * 1000 } // user max session.
+}));
 app.use(flash()); // for passport
 app.use(passport.initialize()); // for passport
 app.use(passport.session());   // for passport
@@ -39,6 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 /* creating a Global variable named login, so that i can use it further. */
 app.use(function(req, res, next) {
     res.locals.login = req.isAuthenticated();
+    res.locals.session = req.session; /* now i can have the access to use session variable in all my handlebars template without passing explicitly */
     next();
 });
 
