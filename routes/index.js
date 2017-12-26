@@ -16,6 +16,7 @@ router.get('/', function(req, res, next) {
     })
 });
 
+/* Shopping Cart */
 router.get('/add-to-cart/:id', function(req, res, next) {
     var productId = req.params.id;
     var cart = new Cart(req.session.cart ? req.session.cart : {} );
