@@ -10,7 +10,7 @@ var session = require('express-session');
 var passport = require('passport'); // password
 var flash = require('connect-flash');
 var validator = require('express-validator'); // require for signup validator checking
-var mongoStrore = require('connect-mongo')(session); // session store
+var MongoStore = require('connect-mongo')(session); // session store
 
 var index = require('./routes/index'); // layout or main page route.
 var userRoutes = require('./routes/user');
@@ -34,8 +34,8 @@ app.use(cookieParser());
 app.use(session({
     secret: 'mysupersecret',
     resave: false,
-    saveUninitialized: false
-    store: new mongoStrore({ mongooseConnection: mongoose.connection }),
+    saveUninitialized: false,
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
     cookie: { maxAge: 180 * 60 * 1000 } // user max session.
 }));
 app.use(flash()); // for passport
