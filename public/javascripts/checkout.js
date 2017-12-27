@@ -1,4 +1,6 @@
+
 Stripe.setPublishableKey('pk_test_CI0Ex6Gs1sdkIzBli69wS4ME');
+
 
 var $form = $('#checkout-form');
 
