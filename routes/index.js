@@ -44,7 +44,7 @@ router.get('/shopping-cart', function(req, res, next) {
     res.render('shop/shopping-cart', {products: cart.generateArray(), totalPrice: cart.totalPrice})
 });
 
-router.get('/checkout', function(req, res, next) {
+router.get('/checkout',isLoggedIn, function(req, res, next) {
     if(!req.session.cart) {
         return res.redirect('/shopping-cart');
     }
@@ -55,7 +55,7 @@ router.get('/checkout', function(req, res, next) {
 
 
 /* Stripe post  route| */
-router.post('/checkout', function(req, res, next) {
+router.post('/checkout', isLoggedIn, function(req, res, next) {
     if(!req.session.cart) {
         return res.redirect('/shopping-cart');
     }
@@ -94,3 +94,12 @@ router.post('/checkout', function(req, res, next) {
 });
 
 module.exports = router;
+
+
+function isLoggedIn(req, res, next) {
+    if(req.isAuthenticated()) {
+        return next();
+    }
+    req.session.oldUrl = req.url;
+    res.redirect('/user/signin');
+}
