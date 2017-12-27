@@ -74,7 +74,7 @@ router.post('/checkout', function(req, res, next) {
               return res.redirect('/checkout');
           }
           req.flash('success', 'You are done! Thanks for Buying our Product!');
-          req.cart = null;
+          req.session.cart = null;
           res.redirect('/');
     });
 });
