@@ -20,7 +20,7 @@ var products = [
         price: 25
     }),
     new Product({
-        imagePath: 'https://img.youtube.com/vi/yleir9ghWxo/maxresdefault.jpg',
+        imagePath: 'https://media.contentapi.ea.com/content/dam/ea/easports/fifa/buy/fifa18/june5/easbuy-share-fifa18le.jpg',
         title: 'FIFA 18',
         description: 'Awesome Game!!!',
         price: 45
